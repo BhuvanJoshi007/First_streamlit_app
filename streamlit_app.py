@@ -73,7 +73,7 @@ except URLError as e:
   streamlit.error()
   
 # do not run anything beyond this line, resulting in no output in the streamlit application.
-# streamlit.stop()
+#- streamlit.stop()
 
 # import snowflake.connector --- Now commented to be converted to function
 #my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
