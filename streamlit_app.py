@@ -1,5 +1,5 @@
 import streamlit
-import pandas
+import pandas as pd
 import requests
 import snowflake.connector
 from urllib.error import URLError
@@ -14,7 +14,7 @@ streamlit.text('🥑🍞 Avocado toast')
 
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
-my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
+my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
 # Let's put a pick list here so they can pick the fruit they want to include 
@@ -35,23 +35,40 @@ streamlit.header("Fruityvice Fruit Advice!")
 # -- fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
 
 # This command will flatten the JSON content into a tabular form
-# -- fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+# -- fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
 # This will display the dataframe
 # -- streamlit.dataframe(fruityvice_normalized)
 
 # Introducing this structure allows us to separate the code that is loaded once from the code that should be repeated each time a new value is entered.
 
+# now we will contain the comment the code from line 45 to 55 and add it to a function
+#try:
+#  fruit_choice = streamlit.text_input('What fruit would you like information about?')
+#  if not fruit_choice:
+#    streamlit.error("Please select a fruit to get information.")
+#  else :
+#    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
+#    fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+#    streamlit.dataframe(fruityvice_normalized)
+#
+#except URLError as e:
+#  streamlit.error()
+
+# Create a function
+def get_fruityvice_data(this_fruit_choice):
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice )
+  fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
+  return fruityvice_normalized
+
+# New Section to display fruityvice api response
+streamlit.header('Fruityvice Fruit Advice!')
 try:
   fruit_choice = streamlit.text_input('What fruit would you like information about?')
   if not fruit_choice:
     streamlit.error("Please select a fruit to get information.")
   else :
-    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
-    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-    streamlit.dataframe(fruityvice_normalized)
-
-except URLError as e:
-  streamlit.error()
+    back_from_function = get_fruityvice_data(fruit_choice)
+    streamlit.dataframe(back_from_function)
 
 # do not run anything beyond this line, resulting in no output in the streamlit application.
 streamlit.stop()
