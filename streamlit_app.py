@@ -46,3 +46,5 @@ streamlit.dataframe(my_data_rows)
 # Add A Second Text Entry Box
 fruit_choice_2 = streamlit.text_input('What fruit would you like to add?','jackfruit')
 streamlit.write('Thanks for adding ', fruit_choice_2)
+
+my_cur.execute("insert into pc_rivery_db.public.fruit_load_list values ('from streamlit')")
