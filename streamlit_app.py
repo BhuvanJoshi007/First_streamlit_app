@@ -28,15 +28,28 @@ streamlit.dataframe(fruits_to_show)
 # import requests
 
 streamlit.header("Fruityvice Fruit Advice!")
-fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('The user entered ', fruit_choice)
+# CODE FROM  LINE 32 TO 40) IS COMMENTED and is changed from to try except block because we want a certain set of code to execute without affecting the snowflake data base
+# -- fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
+# -- streamlit.write('The user entered ', fruit_choice)
 
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
+# -- fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
 
 # This command will flatten the JSON content into a tabular form
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+# -- fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 # This will display the dataframe
-streamlit.dataframe(fruityvice_normalized)
+# -- streamlit.dataframe(fruityvice_normalized)
+
+try:
+  fruit_choice = streamlit.text_input('What fruit would you like information about?')
+  if not fruit_choice:
+    streamlit.error("Please select a fruit to get information.")
+  else :
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+ fruit_choice)
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    streamlit.dataframe(fruityvice_normalized)
+
+except URLError as e:
+  streamlit.error()
 
 # do not run anything beyond this line, resulting in no output in the streamlit application.
 streamlit.stop()
