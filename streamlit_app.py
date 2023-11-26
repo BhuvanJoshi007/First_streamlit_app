@@ -69,12 +69,14 @@ try:
   else:
     back_from_function = get_fruityvice_data(fruit_choice)
     streamlit.dataframe(back_from_function)
-
+except URLError as e:
+  streamlit.error()
+  
 # do not run anything beyond this line, resulting in no output in the streamlit application.
 
 
 # import snowflake.connector
-# streamlit.stop()
+streamlit.stop()
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
