@@ -39,6 +39,8 @@ streamlit.header("Fruityvice Fruit Advice!")
 # This will display the dataframe
 # -- streamlit.dataframe(fruityvice_normalized)
 
+# Introducing this structure allows us to separate the code that is loaded once from the code that should be repeated each time a new value is entered.
+
 try:
   fruit_choice = streamlit.text_input('What fruit would you like information about?')
   if not fruit_choice:
