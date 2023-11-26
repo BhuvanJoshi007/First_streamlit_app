@@ -51,12 +51,12 @@ streamlit.header("Fruityvice Fruit Advice!")
 #    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 #    streamlit.dataframe(fruityvice_normalized)
 #
-#except URLError as e:
+# except URLError as e:
 #  streamlit.error()
 
 # Create a function
 def get_fruityvice_data(this_fruit_choice):
-  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice )
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice)
   fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
   return fruityvice_normalized
 
@@ -68,12 +68,14 @@ try:
     streamlit.error("Please select a fruit to get information.")
   else:
     back_from_function = get_fruityvice_data(fruit_choice)
-  streamlit.dataframe(back_from_function)
+    streamlit.dataframe(back_from_function)
 
 # do not run anything beyond this line, resulting in no output in the streamlit application.
-streamlit.stop()
+
 
 # import snowflake.connector
+streamlit.stop()
+
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("SELECT * from fruit_load_list")
