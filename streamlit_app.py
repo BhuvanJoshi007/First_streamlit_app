@@ -27,7 +27,7 @@ streamlit.dataframe(fruits_to_show)
 # To display fruityvice API response
 # import requests
 
-streamlit.header("Fruityvice Fruit Advice!")
+# streamlit.header("Fruityvice Fruit Advice!")
 # CODE FROM  LINE 32 TO 40) IS COMMENTED and is changed from to try except block because we want a certain set of code to execute without affecting the snowflake data base
 # -- fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
 # -- streamlit.write('The user entered ', fruit_choice)
@@ -73,11 +73,9 @@ except URLError as e:
   streamlit.error()
   
 # do not run anything beyond this line, resulting in no output in the streamlit application.
-
-
-# import snowflake.connector
 streamlit.stop()
 
+# import snowflake.connector
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
 my_cur.execute("SELECT * from fruit_load_list")
